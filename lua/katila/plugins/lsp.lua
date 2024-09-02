@@ -191,6 +191,16 @@ return {
 							checkOnSave = {
 								command = "clippy",
 							},
+							inlayHints = {
+								enable = true,
+								typeHints = true,
+								chainingHints = true,
+								parameterHints = true,
+								lifetimeElisionHints = {
+									enable = true,
+									useParameterNames = true,
+								},
+							},
 						},
 					},
 				},
@@ -215,7 +225,7 @@ return {
 					settings = {},
 					on_attach = function(client, bufnr)
 						-- Disable `tsserver`'s formatting if you're using another formatter (like `prettier`)
-						client.server_capabilities.documentFormattingProvider = false
+						client.server_capabilities.documentFormattingProvider = true
 						-- Add more custom on_attach settings if needed
 					end,
 				},
