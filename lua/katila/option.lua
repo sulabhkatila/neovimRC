@@ -1,3 +1,5 @@
+vim.lsp.inlay_hint.enable(true)
+
 vim.opt.swapfile = false
 vim.opt.number = true
 vim.opt.rnu = true
@@ -16,6 +18,15 @@ vim.opt.smartindent = true
 
 -- Text wrap
 vim.opt.wrap = true
+
+-- Folding
+-- vim.opt.foldmethod = "expr"
+-- vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+-- vim.opt.foldtext = ""
+-- vim.opt.foldlevel = 99
+-- vim.opt.foldlevelstart = 1
+-- vim.opt.foldnestmax = 4
+
 -- Sync clipboard between OS and Neovim
 vim.schedule(function()
 	vim.opt.clipboard = "unnamedplus"

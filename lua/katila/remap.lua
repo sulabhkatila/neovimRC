@@ -1,13 +1,14 @@
 vim.g.mapleader = " "
 
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
-vim.keymap.set("i", "kj", "<Esc>")
+-- vim.keymap.set("i", "kj", "<Esc>")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "{", "{zz")
 vim.keymap.set("n", "}", "}zz")
 
 vim.keymap.set("n", "<leader>w", vim.cmd.w)
+vim.keymap.set("n", "<C-w>", vim.cmd.w)
 vim.keymap.set("n", "<leader>q", vim.cmd.wq)
 
 -- Indent the selected block by pressing Tab in visual mode
@@ -15,6 +16,9 @@ vim.keymap.set("v", "<Tab>", ">gv")
 
 -- Unindent the selected block by pressing Shift-Tab in visual mode
 vim.keymap.set("v", "<S-Tab>", "<gv")
+
+vim.keymap.set("n", "<C-}", "<C-}>zz")
+vim.keymap.set("n", "<C-{", "<C-t>zz")
 
 -- Split navigations
 -- vim.keymap.set("n", "<C-h>", ":wincmd h<CR>")

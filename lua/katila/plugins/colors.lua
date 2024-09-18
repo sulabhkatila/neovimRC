@@ -57,7 +57,8 @@ local sonokai = {
 			vim.g.sonokai_enable_italic = true
 			-- vim.g.sonokai_style = "shusia"
 			-- vim.g.sonokai_style = "atlantis"
-			vim.g.sonokai_style = "andromeda"
+			-- :andromeda
+			vim.g.sonokai_style = "shusia"
 			vim.cmd.colorscheme("sonokai")
 		end,
 	},
