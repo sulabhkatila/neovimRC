@@ -177,10 +177,16 @@ return {
 							plugins = {
 								pylint = { enabled = true },
 								pyflakes = { enabled = false },
-								pycodestyle = { enabled = false },
+								pycodestyle = {
+									ignore = { "E501" }, -- Ignore line length warning
+									line_length = 88,
+								},
 								mccabe = { enabled = false },
 								yapf = { enabled = false },
-								black = { enabled = true },
+								black = {
+									enabled = true,
+									line_length = 88, -- Use Black's line length
+								},
 								pyls_isort = { enabled = true },
 								pylsp_mypy = { enabled = true, live_mode = false },
 							},
