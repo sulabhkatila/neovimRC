@@ -52,6 +52,7 @@ local sonokai = {
 		lazy = false,
 		priority = 999,
 		init = function()
+			transparent = true
 			-- Optionally configure and load the colorscheme
 			-- directly inside the plugin declaration.
 			vim.g.sonokai_enable_italic = true
@@ -170,4 +171,21 @@ local dracula = {
 	end,
 }
 
-return sonokai
+return { sonokai, rose }
+--return sonokai
+-- return {
+-- 	sonokai,
+-- 	{
+-- 		"rose-pine/neovim",
+-- 		name = "rose-pine",
+-- 		config = function()
+-- 			require("rose-pine").setup({
+-- 				disable_background = true,
+-- 			})
+--
+-- 			vim.cmd("colorscheme rose-pine")
+--
+-- 			ColorMyPencils()
+-- 		end,
+-- 	},
+-- }
