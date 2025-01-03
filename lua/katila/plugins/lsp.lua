@@ -49,7 +49,8 @@ return {
 
 				-- Rename the variable under your cursor.
 				--  Most Language Servers support renaming across files, etc.
-				map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
+				-- map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
+				map("R", vim.lsp.buf.rename, "[R]e[n]ame")
 
 				-- Execute a code action, usually your cursor needs to be on top of an error
 				-- or a suggestion from your LSP for this to activate.
@@ -58,6 +59,9 @@ return {
 				-- WARN: This is not Goto Definition, this is Goto Declaration.
 				--  For example, in C this would take you to the header.
 				map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+
+				-- Show the hover information for the word under your cursor.
+				map("K", vim.lsp.buf.hover, "Show [H]over")
 
 				-- The following two autocommands are used to highlight references of the
 				-- word under your cursor when your cursor rests there for a little while.
@@ -130,6 +134,30 @@ return {
 				-- But for many setups, the LSP (`tsserver`) will work just fine
 				-- tsserver = {},
 				--
+				clangd = {
+					cmd = {
+						"clangd",
+						"--background-index",
+						"--offset-encoding=utf-16",
+						"--clang-tidy",
+						"--header-insertion=iwyu",
+					},
+					-- Explanation:
+					-- --background-index: Indexes the project in the background for better performance.
+					-- --clang-tidy: Enables Clang-Tidy for linting and diagnostics.
+					-- --header-insertion=never: Prevents automatic insertion of headers (useful for C projects).
+
+					settings = {
+						clangd = {
+							fallbackFlags = { "-std=c11", "-Wall", "-Wextra", "-Wpedantic" },
+							-- Example: Specify default flags for compilation (C11 standard).
+						},
+					},
+					filetypes = { "c", "h" },
+					init_options = {
+						clangdFileStatus = true, -- Show file status updates in the editor
+					},
+				},
 
 				lua_ls = {
 					-- cmd = {...},
@@ -170,6 +198,7 @@ return {
 				-- 		},
 				-- 	},
 				-- },
+
 				pyright = {
 					settings = {
 						pylsp = {
@@ -193,6 +222,7 @@ return {
 						},
 					},
 				},
+
 				tsserver = {
 					settings = {},
 					on_attach = function(client, bufnr)
@@ -200,6 +230,91 @@ return {
 						client.server_capabilities.documentFormattingProvider = true
 						-- Add more custom on_attach settings if needed
 					end,
+				},
+
+				gopls = {
+					gofumpt = true,
+					codelenses = {
+						gc_details = false,
+						generate = true,
+						regenerate_cgo = true,
+						run_govulncheck = true,
+						test = true,
+						tidy = true,
+						upgrade_dependency = true,
+						vendor = true,
+					},
+					hints = {
+						assignVariableTypes = true,
+						compositeLiteralFields = true,
+						compositeLiteralTypes = true,
+						constantValues = true,
+						functionTypeParameters = true,
+						parameterNames = true,
+						rangeVariableTypes = true,
+						returnTypes = true,
+					},
+					analyses = {
+						fieldalignment = true,
+						nilness = true,
+						unusedparams = true,
+						unusedwrite = true,
+						useany = true,
+					},
+					usePlaceholders = true,
+					completeUnimported = true,
+					staticcheck = true,
+					directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
+					semanticTokens = true,
+				},
+
+				jdtls = {
+					cmd = {
+						"jdtls",
+					},
+					settings = {
+						java = {
+							completion = {
+								favoriteStaticMembers = { "org.junit.Assert.*", "org.mockito.Mockito.*" },
+								filteredTypes = { "com.sun.*", "java.awt.*" },
+							},
+							codeGeneration = {
+								toString = {
+									template = "${object.className}(${member.name}=${member.value})",
+								},
+							},
+						},
+					},
+					root_dir = require("lspconfig").util.root_pattern(
+						".git",
+						"mvnw",
+						"gradlew",
+						"pom.xml",
+						"build.gradle"
+					),
+					filetypes = { "java" },
+				},
+				omnisharp = {
+					cmd = { "omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
+					-- Explanation:
+					-- --languageserver: Starts Omnisharp in Language Server mode.
+					-- --hostPID: Sends the current Neovim process ID for debugging purposes.
+
+					settings = {
+						omnisharp = {
+							enableRoslynAnalyzers = true, -- Enables Roslyn analyzers for additional code analysis.
+							organizeImportsOnFormat = true, -- Automatically organize imports when formatting.
+							enableEditorConfigSupport = true, -- Support `.editorconfig` files.
+						},
+					},
+					filetypes = { "cs", "vb" }, -- C# and Visual Basic file types.
+					init_options = {
+						FormattingOptions = {
+							IndentSize = 4,
+							TabSize = 4,
+							InsertSpaces = true,
+						},
+					},
 				},
 			},
 			-- Ensure the servers and tools above are installed
@@ -230,6 +345,9 @@ return {
 				end,
 
 				rust_analyzer = function() end,
+				-- pyright = function() end,
+
+				-- gopls = function() end,
 			},
 		})
 	end,

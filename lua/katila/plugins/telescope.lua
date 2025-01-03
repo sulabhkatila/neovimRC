@@ -11,7 +11,7 @@ return {
 		require("telescope").setup({})
 
 		local builtin = require("telescope.builtin")
-		vim.keymap.set("n", "<leader>pf", builtin.find_files, {})
+		vim.keymap.set("n", "<C-f>", builtin.find_files, {})
 
 		-- vim.keymap.set("n", "<leader>pf", function()
 		-- 	builtin.find_files({ no_ignore = true }) -- Include files listed in .gitignore

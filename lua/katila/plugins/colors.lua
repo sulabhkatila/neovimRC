@@ -1,5 +1,5 @@
 function ColorMyPencils(color)
-	color = color or "rose-pine"
+	color = "rose-pine" or colors
 	vim.cmd.colorscheme(color)
 
 	vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
@@ -7,7 +7,8 @@ function ColorMyPencils(color)
 end
 
 local rose = {
-	"rose-pine/neovim",
+	--"rose-pine/neovim",
+	"sainnhe/sonokai",
 	name = "rose-pine",
 	config = function()
 		require("rose-pine").setup({
@@ -44,6 +45,13 @@ local tokyonight = {
 	-- 	},
 
 	-- rose,
+}
+
+local kanagawa = {
+	"rebelot/kanagawa.nvim",
+	config = function()
+		vim.cmd("colorscheme kanagawa-dragon")
+	end,
 }
 
 local sonokai = {
@@ -171,8 +179,7 @@ local dracula = {
 	end,
 }
 
-return { sonokai, rose }
---return sonokai
+-- return { catppuccin, rose }
 -- return {
 -- 	sonokai,
 -- 	{
@@ -189,3 +196,4 @@ return { sonokai, rose }
 -- 		end,
 -- 	},
 -- }
+return { kanagawa }
