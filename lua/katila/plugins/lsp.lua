@@ -403,13 +403,9 @@ return {
 							},
 						},
 					},
-					root_dir = require("lspconfig").util.root_pattern(
-						".git",
-						"mvnw",
-						"gradlew",
-						"pom.xml",
-						"build.gradle"
-					),
+					root_dir = function(fname)
+						return vim.fs.root(fname, { ".git", "mvnw", "gradlew", "pom.xml", "build.gradle" })
+					end,
 					filetypes = { "java" },
 				},
 				omnisharp = {
@@ -459,7 +455,8 @@ return {
 					-- by the server configuration above. Useful when disabling
 					-- certain features of an LSP (for example, turning off formatting for tsserver)
 					server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-					require("lspconfig")[server_name].setup(server)
+					vim.lsp.config(server_name, server)
+					vim.lsp.enable(server_name)
 				end,
 
 				rust_analyzer = function() end,

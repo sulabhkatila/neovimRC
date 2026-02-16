@@ -35,6 +35,7 @@ local dartls = {
 return {
 	"neovim/nvim-lspconfig",
 	opts = function()
-		require("lspconfig").dartls.setup(dartls)
+		vim.lsp.config("dartls", dartls)
+		vim.lsp.enable("dartls")
 	end,
 }
