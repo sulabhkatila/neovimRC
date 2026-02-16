@@ -1,6 +1,6 @@
 vim.g.mapleader = " "
 
-vim.keymap.set("n", "<C-b>", vim.cmd.Ex)
+vim.keymap.set("n", "<C-n>", vim.cmd.Ex)
 -- vim.keymap.set("i", "kj", "<Esc>")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
@@ -11,7 +11,7 @@ vim.keymap.set("n", "j", "gj")
 vim.keymap.set("n", "k", "gk")
 
 vim.keymap.set("n", "<leader>w", vim.cmd.w)
-vim.keymap.set("n", "<C-w>", vim.cmd.w)
+vim.keymap.set("n", "<C-s>", vim.cmd.w)
 vim.keymap.set("n", "<leader>q", vim.cmd.wq)
 
 -- Indent the selected block by pressing Tab in visual mode
@@ -23,29 +23,29 @@ vim.keymap.set("v", "<S-Tab>", "<gv")
 vim.keymap.set("n", "<C-}", "<C-}>zz")
 vim.keymap.set("n", "<C-{", "<C-t>zz")
 
-vim.api.nvim_create_user_command("EnableCopilot", function()
-	vim.b.copilot_enabled = 1
-	print("Copilot enabled")
-end, {})
-
-vim.api.nvim_create_user_command("DisableCopilot", function()
-	vim.b.copilot_enabled = 0
-	print("Copilot disabled")
-end, {})
-
--- Toggle Copilot
-vim.api.nvim_create_user_command("ToggleCopilot", function()
-	if vim.b.copilot_enabled == 0 then
-		vim.cmd("EnableCopilot")
-	else
-		vim.cmd("DisableCopilot")
-	end
-end, {})
-
-vim.keymap.set("n", "<C-m>", function()
-	vim.cmd("ToggleCopilot")
-end, { noremap = true, silent = true })
-
+-- vim.api.nvim_create_user_command("EnableCopilot", function()
+-- 	vim.g.copilot_enabled = 1
+-- 	print("Copilot enabled")
+-- end, {})
+--
+-- vim.api.nvim_create_user_command("DisableCopilot", function()
+-- 	vim.g.copilot_enabled = 0
+-- 	print("Copilot disabled")
+-- end, {})
+--
+-- -- Toggle Copilot
+-- vim.api.nvim_create_user_command("ToggleCopilot", function()
+-- 	if vim.g.copilot_enabled == 0 then
+-- 		vim.cmd("EnableCopilot")
+-- 	else
+-- 		vim.cmd("DisableCopilot")
+-- 	end
+-- end, {})
+--
+-- vim.keymap.set("n", "<C-m>", function()
+-- 	vim.cmd("ToggleCopilot")
+-- end, { noremap = true, silent = true })
+--
 -- Split navigations
 -- vim.keymap.set("n", "<C-h>", ":wincmd h<CR>")
 -- vim.keymap.set("n", "<C-j>", ":wincmd j<CR>")

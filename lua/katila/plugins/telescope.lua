@@ -14,14 +14,14 @@ return {
 		vim.keymap.set("n", "<C-f>", builtin.find_files, {})
 
 		-- vim.keymap.set("n", "<leader>pf", function()
-		-- 	builtin.find_files({ no_ignore = true }) -- Include files listed in .gitignore
+		-- builtin.find_files({ no_ignore = true }) -- Include files listed in .gitignore
 		-- end, {})
 		vim.keymap.set("n", "<C-p>", builtin.git_files, {})
-		vim.keymap.set("n", "<leader>pws", function()
-			local word = vim.fn.expand("<cword>")
-			builtin.grep_string({ search = word })
-		end)
-		vim.keymap.set("n", "<leader>pWs", function()
+		-- vim.keymap.set("n", "<C-g>", function()
+		-- 	local word = vim.fn.expand("<cword>")
+		-- 	builtin.grep_string({ search = word })
+		-- end)
+		vim.keymap.set("n", "<C-g>", function()
 			local word = vim.fn.expand("<cWORD>")
 			builtin.grep_string({ search = word })
 		end)

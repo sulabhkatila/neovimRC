@@ -134,6 +134,17 @@ return {
 				-- But for many setups, the LSP (`tsserver`) will work just fine
 				-- tsserver = {},
 				--
+				-- texlab = {
+				--	build = {
+				--		executable = "latexmk",
+				--		args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
+				--		onSave = true,
+				--	},
+				--		forwardSearch = {
+				--	executable = "zathura",
+				--	args = { "--synctex-forward", "%l:1:%f", "%p" },
+				--},
+				--},
 				clangd = {
 					cmd = {
 						"clangd",
@@ -157,6 +168,10 @@ return {
 					init_options = {
 						clangdFileStatus = true, -- Show file status updates in the editor
 					},
+
+					on_attach = function(client, bufnr)
+						vim.keymap.set("n", "<C-}>", vim.lsp.buf.references, opts)
+					end,
 				},
 
 				lua_ls = {
@@ -221,21 +236,124 @@ return {
 							},
 						},
 					},
-				},
 
-				tsserver = {
-					settings = {},
 					on_attach = function(client, bufnr)
-						-- Disable `tsserver`'s formatting if you're using another formatter (like `prettier`)
-						client.server_capabilities.documentFormattingProvider = true
-						-- Add more custom on_attach settings if needed
+						vim.keymap.set("n", "<C-}>", vim.lsp.buf.references, opts)
+
+						-- Configure autocommands for formatting on save (optional)
+						vim.api.nvim_create_autocmd("BufWritePre", {
+							group = vim.api.nvim_create_augroup("FormatOnSave", { clear = true }),
+							buffer = bufnr,
+							callback = function()
+								vim.lsp.buf.format({ async = false })
+							end,
+						})
 					end,
 				},
 
+				tsserver = {
+					settings = {}, -- Placeholder for tsserver-specific configurations
+					filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" }, -- enables ts, js, tsx, jsx
+					on_attach = function(client, bufnr)
+						-- Disable tsserver's formatting if you are using a dedicated formatter like prettier
+						client.server_capabilities.documentFormattingProvider = false
+
+						-- Custom key mappings for LSP actions
+						local opts = { noremap = true, silent = true, buffer = bufnr }
+						vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+						vim.keymap.set("n", "<C-}>", vim.lsp.buf.references, opts)
+						vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+						vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+						vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+
+						-- Configure autocommands for formatting on save (optional)
+						vim.api.nvim_create_autocmd("BufWritePre", {
+							group = vim.api.nvim_create_augroup("FormatOnSave", { clear = true }),
+							buffer = bufnr,
+							callback = function()
+								vim.lsp.buf.format({ async = false })
+							end,
+						})
+
+						-- Add any additional custom behaviors as needed
+					end,
+				},
+				jsonls = {
+					settings = {
+						json = {
+							format = {
+								enable = true, -- Enables built-in formatting
+							},
+							validate = { enable = true },
+						},
+					},
+					on_attach = function(client, bufnr)
+						client.server_capabilities.documentFormattingProvider = true -- Enable formatting
+						local opts = { noremap = true, silent = true, buffer = bufnr }
+						vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+						vim.keymap.set("n", "<C-}>", vim.lsp.buf.references, opts)
+						vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+						vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+						vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+
+						-- Set 2-space indentation for JSON
+						vim.bo.tabstop = 2
+						vim.bo.shiftwidth = 2
+						vim.bo.expandtab = true
+
+						-- Format on save
+						vim.api.nvim_create_autocmd("BufWritePre", {
+							group = vim.api.nvim_create_augroup("FormatJsonOnSave", { clear = true }),
+							buffer = bufnr,
+							callback = function()
+								vim.lsp.buf.format({ async = false })
+							end,
+						})
+					end,
+				},
+				html = {
+					settings = {
+
+						html = {
+							format = {
+								enable = true, -- Ensure formatting is enabled.
+								indentInnerHtml = true, -- Indent <head> and <body> sections.
+								preserveNewLines = true,
+								wrapLineLength = 120, -- Set maximum line length for wrapping.
+								unformatted = "pre,code,textarea", -- Avoid formatting sensitive tags.
+							},
+							validate = {
+								styles = true, -- Validate inline CSS styles.
+								scripts = true, -- Validate embedded JavaScript.
+							},
+							hover = {
+								documentation = true, -- Show documentation on hover.
+								references = true, -- Show references for symbols.
+							},
+							suggest = {
+								html5 = true, -- Enable HTML5 tag suggestions.
+								angular1 = false, -- Disable AngularJS suggestions if not needed.
+							},
+							autoClosingTags = true, -- Auto-close tags while typing.
+							completion = {
+								attributeDefaultValue = "doublequotes", -- Use double quotes for attributes.
+								tagComplete = {
+									enable = true, -- Enable auto-tag completion.
+								},
+							},
+							embeddedLanguages = {
+								javascript = true,
+								typescript = true,
+								css = true,
+							},
+						},
+					},
+					filetypes = { "html", "htm", "xhtml", "jinja", "ejs" },
+				},
 				gopls = {
 					gofumpt = true,
 					codelenses = {
-						gc_details = false,
+						gc_details = true,
 						generate = true,
 						regenerate_cgo = true,
 						run_govulncheck = true,
