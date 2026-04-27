@@ -131,8 +131,8 @@ return {
 				-- Some languages (like typescript) have entire language plugins that can be useful:
 				--    https://github.com/pmizio/typescript-tools.nvim
 				--
-				-- But for many setups, the LSP (`tsserver`) will work just fine
-				-- tsserver = {},
+				-- But for many setups, the LSP (`ts_ls`) will work just fine
+				-- ts_ls = {},
 				--
 				-- texlab = {
 				--	build = {
@@ -251,11 +251,11 @@ return {
 					end,
 				},
 
-				tsserver = {
-					settings = {}, -- Placeholder for tsserver-specific configurations
+				ts_ls = {
+					settings = {}, -- Placeholder for ts_ls-specific configurations
 					filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" }, -- enables ts, js, tsx, jsx
 					on_attach = function(client, bufnr)
-						-- Disable tsserver's formatting if you are using a dedicated formatter like prettier
+						-- Disable ts_ls formatting if you are using a dedicated formatter like prettier
 						client.server_capabilities.documentFormattingProvider = false
 
 						-- Custom key mappings for LSP actions
