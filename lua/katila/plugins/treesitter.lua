@@ -2,6 +2,10 @@ return {
 	"nvim-treesitter/nvim-treesitter",
 	build = ":TSUpdate",
 	config = function()
+		-- Fix tree-sitter CLI 0.25+ compatibility by removing deprecated --no-bindings flag
+		local ts_install = require("nvim-treesitter.install")
+		ts_install.ts_generate_args = { "generate", "--abi", tostring(vim.treesitter.language_version) }
+
 		require("nvim-treesitter.configs").setup({
 			-- A list of parser names, or "all"
 			ensure_installed = {

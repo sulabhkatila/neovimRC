@@ -465,5 +465,14 @@ return {
 				-- gopls = function() end,
 			},
 		})
+
+		-- Configure sourcekit-lsp for Swift (since it's not managed by Mason)
+		local sourcekit_server = {
+			cmd = { "xcrun", "sourcekit-lsp" },
+			filetypes = { "swift", "objective-c", "objective-cpp" },
+			capabilities = capabilities,
+		}
+		vim.lsp.config("sourcekit", sourcekit_server)
+		vim.lsp.enable("sourcekit")
 	end,
 }
